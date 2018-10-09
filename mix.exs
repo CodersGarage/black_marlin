@@ -26,7 +26,7 @@ defmodule BlackMarlin.Mixfile do
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
       {:tesla, "~> 1.1.0"},
       {:jason, ">= 1.0.0"},
-      {:emqttd, in_umbrella: true, manager: :make, git: "https://github.com/emqtt/emqttd.git", tag: "master"}
+      {:emqx, in_umbrella: true, manager: :make, git: "https://github.com/emqx/emqx.git", branch: "emqx30"}
     ]
   end
 end

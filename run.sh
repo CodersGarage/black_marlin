@@ -1,3 +1,3 @@
 #!/bin/sh
 
-mix deps.get && mix compile
+mix deps.clean --all && mix deps.get && mix compile

@@ -1,11 +1,11 @@
 defmodule BlackMarlinAcl do
 
   def load(env) do
-    :emqttd_access_control.register_mod(:acl, BlackMarlinAcl, [])
+    :emqx_access_control.register_mod(:acl, BlackMarlinAcl, [])
   end
 
   def unload do
-    :emqttd_access_control.unregister_mod(:acl, BlackMarlinAcl)
+    :emqx_access_control.unregister_mod(:acl, BlackMarlinAcl)
   end
 
   def init(opts) do

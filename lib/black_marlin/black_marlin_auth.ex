@@ -2,11 +2,11 @@ defmodule BlackMarlinAuth do
   import HttpHelper
 
   def load(env) do
-    :emqttd_access_control.register_mod(:auth, BlackMarlinAuth, [])
+    :emqx_access_control.register_mod(:auth, BlackMarlinAuth, [])
   end
 
   def unload do
-    :emqttd_access_control.unregister_mod(:auth, BlackMarlinAuth)
+    :emqx_access_control.unregister_mod(:auth, BlackMarlinAuth)
   end
 
   def init(_opts) do
