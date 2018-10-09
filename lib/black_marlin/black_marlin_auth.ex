@@ -1,4 +1,5 @@
 defmodule BlackMarlinAuth do
+  import HttpHelper
 
   def load(env) do
     :emqttd_access_control.register_mod(:auth, BlackMarlinAuth, [])
@@ -9,32 +10,24 @@ defmodule BlackMarlinAuth do
   end
 
   def init(_opts) do
-    IO.puts("On Auth init")
     {:ok, _opts}
   end
 
   ### check is checking for client connection authorization
+  #    {:ignore}
+  #    {:error, "Error happend"}
+  #    {:ok, false}
+  ###
   def check(client, password, _opts) do
     IO.puts("OnAuth check")
 
-    case is_authorized(client, password) do
+    c = new_client(password)
+    case c
+         |> check_login() do
       true ->
         {:ok, false}
       false ->
         {:error, "Invalid username or password"}
-    end
-
-    #    {:ignore}
-    #    {:error, "Error happend"}
-    #    {:ok, false}
-  end
-
-  defp is_authorized(client, password) do
-    username = MqClient.get_mq_client_username(client)
-    if username == "admin" and password == "admin" do
-      true
-    else
-      false
     end
   end
 
