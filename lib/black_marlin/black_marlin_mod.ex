@@ -1,6 +1,9 @@
 defmodule BlackMarlinMod do
   require Record
 
+  import MqttHelper
+  import Enum
+
   def hook_add(a, b, c) do
     :emqx.hook(a, b, c)
   end
@@ -35,6 +38,10 @@ defmodule BlackMarlinMod do
 
   def on_client_subscribe(a, b, c) do
     IO.inspect(["BlackMarlinMod on_client_subscribe a = ", a, ", b = ", b, ", c = ", c])
+    username = get_mq_client_username(a)
+    new_topic = [{username, elem(at(b, 1), 0)}]
+    IO.inspect(["BlackMarlinMod on_client_subscribe new = ", new_topic])
+    {:ok, new_topic}
   end
 
   def on_client_unsubscribe(a, b, c) do
