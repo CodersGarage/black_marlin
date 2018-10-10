@@ -23,3 +23,5 @@ erl_crash.dump
 black_marlin-*.tar
 
 .idea
+
+mix.lock
