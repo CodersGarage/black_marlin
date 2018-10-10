@@ -5,7 +5,7 @@ defmodule HttpHelper do
   plug Tesla.Middleware.JSON
 
   def check_login(client, username) do
-    case post(client, "/auth", %{"username" => username}) do
+    case post(client, "/auth", %{username: username}) do
       {:ok, resp} ->
         case resp.status do
           200 -> true
