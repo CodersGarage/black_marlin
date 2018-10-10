@@ -2,11 +2,11 @@ defmodule BlackMarlinMod do
   require Record
 
   def hook_add(a, b, c) do
-    :emqx_hook.add(a, b, c)
+    :emqx.hook(a, b, c)
   end
 
   def hook_del(a, b) do
-    :emqx_hook.delete(a, b)
+    :emqx.unhook(a, b)
   end
 
   def load(env) do
