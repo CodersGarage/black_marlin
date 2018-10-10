@@ -23,7 +23,7 @@ defmodule BlackMarlinAuth do
 
     c = new_client(password)
     case c
-         |> check_login() do
+         |> check_login(password) do
       true ->
         {:ok, false}
       false ->
