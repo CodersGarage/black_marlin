@@ -8,12 +8,19 @@ defmodule HttpHelper do
     case post(client, "/auth", %{username: username}) do
       {:ok, resp} ->
         case resp.status do
-          200 -> true
+          200 ->
+            check_and_set_admin_user(resp)
+            true
           _ -> false
         end
       _ ->
         false
     end
+  end
+
+  defp check_and_set_admin_user(resp) do
+    IO.inspect(["username = ", resp.body["data"]["hash"]])
+    IO.inspect(["is_admin = ", resp.body["data"]["is_admin"]])
   end
 
   def check_sub(client) do
