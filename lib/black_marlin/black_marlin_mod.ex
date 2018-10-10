@@ -10,12 +10,12 @@ defmodule BlackMarlinMod do
   end
 
   def load(env) do
-    hook_add(:"client.connected", &BlackMarlinMod.on_client_connected/3, [env])
+    hook_add(:"client.connected", &BlackMarlinMod.on_client_connected/4, [env])
     hook_add(:"client.disconnected", &BlackMarlinMod.on_client_disconnected/3, [env])
   end
 
   def unload do
-    hook_del(:"client.connected", &BlackMarlinMod.on_client_connected/3)
+    hook_del(:"client.connected", &BlackMarlinMod.on_client_connected/4)
     hook_del(:"client.disconnected", &BlackMarlinMod.on_client_disconnected/3)
   end
 
