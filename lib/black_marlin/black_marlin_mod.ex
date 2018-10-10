@@ -19,8 +19,8 @@ defmodule BlackMarlinMod do
     hook_del(:"client.disconnected", &BlackMarlinMod.on_client_disconnected/3)
   end
 
-  def on_client_connected(returncode, client, _env) do
-    IO.inspect(["BlackMarlinMod on_client_connected", returncode, client])
+  def on_client_connected(client, connect_code, connect_info, _env) do
+    IO.inspect(["BlackMarlinMod on_client_connected", client, connect_code, connect_info])
     {:ok, client}
   end
 
