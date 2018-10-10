@@ -19,8 +19,8 @@ defmodule BlackMarlinMod do
   def unload do
     hook_del(:"client.connected", &BlackMarlinMod.on_client_connected/4)
     hook_del(:"client.disconnected", &BlackMarlinMod.on_client_disconnected/3)
-    hook_del(:"client.subscribe", &BlackMarlinMod.on_client_subscribe/4, [env])
-    hook_del(:"client.unsubscribe", &BlackMarlinMod.on_client_unsubscribe/4, [env])
+    hook_del(:"client.subscribe", &BlackMarlinMod.on_client_subscribe/4)
+    hook_del(:"client.unsubscribe", &BlackMarlinMod.on_client_unsubscribe/4)
   end
 
   def on_client_connected(client, connect_code, connect_info, _env) do
