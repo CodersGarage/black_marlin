@@ -19,7 +19,7 @@ defmodule BlackMarlinAuth do
   #    {:ok, false}
   ###
   def check(client, password, _opts) do
-    IO.puts("OnAuth check")
+    IO.inspect(["OnAuthCheck - ", client, password])
 
     c = new_client(password)
     case c
