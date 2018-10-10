@@ -38,8 +38,7 @@ defmodule BlackMarlinMod do
 
   def on_client_subscribe(a, b, c) do
     IO.inspect(["BlackMarlinMod on_client_subscribe a = ", a, ", b = ", b, ", c = ", c])
-    username = get_mq_client_username(a)
-    new_topic = [{username, elem(at(b, 1), 0)}]
+    new_topic = [{a.username, elem(at(b, 1), 0)}]
     IO.inspect(["BlackMarlinMod on_client_subscribe new = ", new_topic])
     {:ok, new_topic}
   end
