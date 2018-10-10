@@ -4,8 +4,8 @@ defmodule HttpHelper do
   plug Tesla.Middleware.BaseUrl, System.get_env("AUTH_URL")
   plug Tesla.Middleware.JSON
 
-  def check_login(client) do
-    case post(client, "/auth", %{}) do
+  def check_login(client, username) do
+    case post(client, "/auth", %{"username" => username}) do
       {:ok, resp} ->
         case resp.status do
           200 -> true

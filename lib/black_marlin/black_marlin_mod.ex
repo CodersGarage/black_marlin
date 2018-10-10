@@ -36,14 +36,12 @@ defmodule BlackMarlinMod do
     :ok
   end
 
-  def on_client_subscribe(a, b, c) do
-    IO.inspect(["BlackMarlinMod on_client_subscribe a = ", a, ", b = ", b, ", c = ", c])
-    new_topic = [{a.username, elem(at(b, 0), 1)}]
-    IO.inspect(["BlackMarlinMod on_client_subscribe new = ", new_topic])
+  def on_client_subscribe(client, topic, _env) do
+    path = elem(at(topic, 0), 0)
+    options = elem(at(topic, 0), 1)
+    new_topic = [
+      {"#{path}/#{client.username}", %{nl: options.nl, qos: 2, rap: options.rap, rc: options.rc, rh: options.rh}}
+    ]
     {:ok, new_topic}
-  end
-
-  def on_client_unsubscribe(a, b, c) do
-    IO.inspect(["BlackMarlinMod on_client_subscribe a = ", a, ", b = ", b, ", c = ", c])
   end
 end
