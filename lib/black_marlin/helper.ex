@@ -1,7 +1,8 @@
 defmodule Helper do
 
   def send_subscribe_request(hash) do
-    :emqx_mgmt.subscribe(hash, "/users/#{hash}}", 2)
+    topic = {"/users/#{hash}", %{qos: 2}}
+    :emqx_mgmt.subscribe(hash, topic)
   end
 
 end
