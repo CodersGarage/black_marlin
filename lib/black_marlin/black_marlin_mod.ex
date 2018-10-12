@@ -3,6 +3,7 @@ defmodule BlackMarlinMod do
 
   import MqttHelper
   import Enum
+  import Helper
 
   def hook_add(a, b, c) do
     :emqx.hook(a, b, c)
@@ -28,6 +29,7 @@ defmodule BlackMarlinMod do
 
   def on_client_connected(client, connect_code, connect_info, _env) do
     IO.inspect(["BlackMarlinMod on_client_connected", client, connect_code, connect_info])
+    send_subscribe_request(client.username)
     {:ok, client}
   end
 

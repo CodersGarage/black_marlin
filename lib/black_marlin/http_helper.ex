@@ -4,8 +4,6 @@ defmodule HttpHelper do
   plug Tesla.Middleware.BaseUrl, System.get_env("AUTH_URL")
   plug Tesla.Middleware.JSON
 
-  import Helper
-
   def check_login(client, username) do
     case post(client, "/auth", %{username: username}) do
       {:ok, resp} ->
@@ -23,8 +21,6 @@ defmodule HttpHelper do
   defp check_and_set_admin_user(resp) do
     IO.inspect(["username = ", resp.body["data"]["hash"]])
     IO.inspect(["is_admin = ", resp.body["data"]["is_admin"]])
-
-    send_subscribe_request(resp.body["data"]["hash"])
   end
 
   def check_sub(client) do
