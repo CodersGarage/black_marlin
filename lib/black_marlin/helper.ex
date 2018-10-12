@@ -6,6 +6,6 @@ defmodule Helper do
 
   defp make_topic_table(hash) do
     {topic, options} = :emqx_topic.parse("/users/#{hash}")
-    {topic, %{nl: options.nl, qos: 2, rap: options.rap, rc: options.rc, rh: options.rh}}
+    {topic, %{qos: 2}}
   end
 end
