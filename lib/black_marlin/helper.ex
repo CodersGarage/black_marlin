@@ -11,6 +11,6 @@ defmodule Helper do
     {topic, options} = :emqx_topic.parse("/users/#{hash}")
     IO.inspect(["topic = ", topic])
     IO.inspect(["Opts = ", options])
-    {topic, %{qos: 2}}
+    [{topic, %{qos: 2}}]
   end
 end
