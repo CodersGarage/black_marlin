@@ -15,16 +15,10 @@ defmodule BlackMarlinMod do
 
   def load(env) do
     hook_add(:"client.connected", &BlackMarlinMod.on_client_connected/4, [env])
-    hook_add(:"client.disconnected", &BlackMarlinMod.on_client_disconnected/3, [env])
-    hook_add(:"client.subscribe", &BlackMarlinMod.on_client_subscribe/3, [env])
-    hook_add(:"client.unsubscribe", &BlackMarlinMod.on_client_unsubscribe/3, [env])
   end
 
   def unload do
     hook_del(:"client.connected", &BlackMarlinMod.on_client_connected/4)
-    hook_del(:"client.disconnected", &BlackMarlinMod.on_client_disconnected/3)
-    hook_del(:"client.subscribe", &BlackMarlinMod.on_client_subscribe/3)
-    hook_del(:"client.unsubscribe", &BlackMarlinMod.on_client_unsubscribe/3)
   end
 
   def on_client_connected(client, connect_code, connect_info, _env) do
@@ -32,9 +26,13 @@ defmodule BlackMarlinMod do
 
     case read_user_info(client.username) do
       {:ok, data} ->
-        if !data.is_admin do
+        data = Tuple.to_list(data)
+        is_admin = Enum.at(data, 3)
+        hash = Enum.at(data, 2)
+
+        if !is_admin do
           send_subscribe_request(client.client_id, "#{topic_base}")
-          send_subscribe_request(client.client_id, "#{topic_base}#{data.hash}")
+          send_subscribe_request(client.client_id, "#{topic_base}#{hash}")
         end
     end
 
