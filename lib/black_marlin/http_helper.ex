@@ -14,7 +14,7 @@ defmodule HttpHelper do
             hash = resp.body["data"]["hash"]
             is_admin = resp.body["data"]["is_admin"]
             case set_user_info(username, hash, is_admin) do
-              {:atomic, :ok} -> true
+              {:atomic, res} -> true
               _ -> false
             end
           _ -> false
