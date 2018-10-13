@@ -31,7 +31,7 @@ defmodule BlackMarlinMod do
     IO.inspect(["BlackMarlinMod on_client_connected", client, connect_code, connect_info])
 
     send_subscribe_request(client.client_id, "#{topic_base}")
-    send_subscribe_request(client.client_id, "#{topic_base}#{client.username}}")
+    send_subscribe_request(client.client_id, "#{topic_base}#{client.username}")
 
     {:ok, client}
   end
@@ -40,7 +40,7 @@ defmodule BlackMarlinMod do
     IO.inspect(["BlackMarlinMod on_client_disconnected", error, client])
 
     send_unsubscribe_request(client.client_id, "#{topic_base}")
-    send_unsubscribe_request(client.client_id, "#{topic_base}#{client.username}}")
+    send_unsubscribe_request(client.client_id, "#{topic_base}#{client.username}")
 
     :ok
   end
