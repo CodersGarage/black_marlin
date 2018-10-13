@@ -41,7 +41,7 @@ defmodule Helper do
 
   def read_user_info(uuid) do
     data = fn ->
-      :mnesia.read({@mnesia_table_name, uuid})
+      :mnesia.match_object({@mnesia_table_name, uuid, :_, :_})
     end
 
     case :mnesia.transaction(data) do
@@ -58,7 +58,7 @@ defmodule Helper do
 
   def is_admin(uuid) do
     data = fn ->
-      :mnesia.read({@mnesia_table_name, uuid, '_', true})
+      :mnesia.match_object({@mnesia_table_name, uuid, :_, true})
     end
 
     case :mnesia.transaction(data) do
