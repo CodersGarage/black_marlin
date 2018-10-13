@@ -1,7 +1,11 @@
 defmodule BlackMarlin do
   use Application
 
+  import Helper
+
   def start(type, args) do
+    boot_mnesia()
+
     BlackMarlinAuth.load([])
     BlackMarlinAcl.load([])
     BlackMarlinMod.load([])

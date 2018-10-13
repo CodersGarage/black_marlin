@@ -1,5 +1,7 @@
 defmodule BlackMarlinAcl do
 
+  import Helper
+
   def load(env) do
     :emqx_access_control.register_mod(:acl, BlackMarlinAcl, [])
   end
@@ -19,9 +21,9 @@ defmodule BlackMarlinAcl do
     IO.inspect(["pubsub : ", pubsub])
     IO.inspect(["topic : ", topic])
 
-    case pubsub do
-      :publish -> :allow
-      _ -> :deny
+    cond do
+      pubsub == :publish and is_admin(client.username) -> :allow
+      true -> :deny
     end
 
     #    {:ignore}

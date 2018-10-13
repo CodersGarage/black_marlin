@@ -30,18 +30,14 @@ defmodule BlackMarlinMod do
   def on_client_connected(client, connect_code, connect_info, _env) do
     IO.inspect(["BlackMarlinMod on_client_connected", client, connect_code, connect_info])
 
-    send_subscribe_request(client.client_id, "#{topic_base}")
-    send_subscribe_request(client.client_id, "#{topic_base}#{client.username}")
+    case read_user_info(client.username) do
+      {:ok, data} ->
+        if !data.is_admin do
+          send_subscribe_request(client.client_id, "#{topic_base}")
+          send_subscribe_request(client.client_id, "#{topic_base}#{data.hash}")
+        end
+    end
 
     {:ok, client}
-  end
-
-  def on_client_disconnected(error, client, _env) do
-    IO.inspect(["BlackMarlinMod on_client_disconnected", error, client])
-
-    send_unsubscribe_request(client.client_id, "#{topic_base}")
-    send_unsubscribe_request(client.client_id, "#{topic_base}#{client.username}")
-
-    :ok
   end
 end

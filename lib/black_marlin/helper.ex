@@ -1,5 +1,6 @@
 defmodule Helper do
   @topic_base "/connections/"
+  @mnesia_table_name Connection
 
   def send_subscribe_request(client_id, topic) do
     case :emqx_mgmt.subscribe(client_id, make_topic_table(topic)) do
@@ -22,5 +23,47 @@ defmodule Helper do
 
   defmacro topic_base do
     @topic_base
+  end
+
+  def boot_mnesia() do
+    :mnesia.create_schema([node()])
+    :mnesia.start()
+    :mnesia.create_table([@mnesia_table_name, [attributes: [:uuid, :hash, :is_admin]]])
+  end
+
+  def set_user_info(uuid, hash, is_admin) do
+    data = fn ->
+      :mnesia.write({@mnesia_table_name, uuid, hash, is_admin})
+    end
+
+    :mnesia.transaction(data)
+  end
+
+  def read_user_info(uuid) do
+    data = fn ->
+      :mnesia.read({Connection, uuid})
+    end
+
+    {:atomic, result} = :mnesia.transaction(data)
+    cond do
+      length(result) > 0 ->
+        {:ok, Enum.at(result, 0)}
+      true ->
+        {:not_found, {}}
+    end
+  end
+
+  def is_admin(uuid) do
+    data = fn ->
+      :mnesia.read({Connection, uuid, '_', true})
+    end
+
+    {:atomic, result} = :mnesia.transaction(data)
+    cond do
+      length(result) > 0 ->
+        true
+      true ->
+        false
+    end
   end
 end
