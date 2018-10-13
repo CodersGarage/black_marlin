@@ -29,21 +29,19 @@ defmodule BlackMarlinMod do
 
   def on_client_connected(client, connect_code, connect_info, _env) do
     IO.inspect(["BlackMarlinMod on_client_connected", client, connect_code, connect_info])
-    send_subscribe_request(client.username)
+
+    send_subscribe_request(client.client_id, "#{topic_base}")
+    send_subscribe_request(client.client_id, "#{topic_base}#{client.username}}")
+
     {:ok, client}
   end
 
   def on_client_disconnected(error, client, _env) do
     IO.inspect(["BlackMarlinMod on_client_disconnected", error, client])
-    :ok
-  end
 
-  def on_client_subscribe(client, topic, _env) do
-    path = elem(at(topic, 0), 0)
-    options = elem(at(topic, 0), 1)
-    new_topic = [
-      {"#{path}/#{client.username}", %{nl: options.nl, qos: 2, rap: options.rap, rc: options.rc, rh: options.rh}}
-    ]
-    {:ok, new_topic}
+    send_unsubscribe_request(client.client_id, "#{topic_base}")
+    send_unsubscribe_request(client.client_id, "#{topic_base}#{client.username}}")
+
+    :ok
   end
 end

@@ -18,9 +18,14 @@ defmodule BlackMarlinAcl do
     IO.inspect(["client : ", client])
     IO.inspect(["pubsub : ", pubsub])
     IO.inspect(["topic : ", topic])
+
+    case pubsub do
+      :publish -> :allow
+      _ -> :deny
+    end
+
     #    {:ignore}
     #    {:deny}
-    :allow
   end
 
   def reload_acl(_State) do
