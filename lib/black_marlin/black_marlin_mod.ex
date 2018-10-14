@@ -15,10 +15,14 @@ defmodule BlackMarlinMod do
 
   def load(env) do
     hook_add(:"client.connected", &BlackMarlinMod.on_client_connected/4, [env])
+    hook_add(:"message.publish", &BlackMarlinMod.on_message_publish/2, [env])
+    hook_add(:"message.delivered", &BlackMarlinMod.on_message_delivered/3, [env])
   end
 
   def unload do
     hook_del(:"client.connected", &BlackMarlinMod.on_client_connected/4)
+    hook_del(:"message.publish", &BlackMarlinMod.on_message_publish/2)
+    hook_del(:"message.delivered", &BlackMarlinMod.on_message_delivered/3)
   end
 
   def on_client_connected(client, connect_code, connect_info, _env) do
@@ -38,4 +42,21 @@ defmodule BlackMarlinMod do
 
     {:ok, client}
   end
+
+  def on_message_publish(msg, _env) do
+
+    cond do
+      is_system_message(msg) or is_presence_message(msg) ->
+        {:ok, msg}
+      true ->
+        IO.inspect(["on_message_publish = ", msg])
+        {:ok, msg}
+    end
+
+  end
+
+  def on_message_delivered(a, b, c) do
+    IO.inspect(["on_message_delivered = ", a, b, c])
+  end
+
 end
